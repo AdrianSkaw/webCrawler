@@ -1,0 +1,84 @@
+POST http://127.0.0.1:8000/api/v1/crawler
+Content-Type: application/json
+
+{
+    "url": "https://www.centrumrowerowe.pl/rowery/gorskie-mtb/",
+    "list_selector": "div[class='list-wrapper'] div[class='col']",
+    "config": {
+        "title": {"allow_missing": false},
+        "price": {"allow_missing": false},
+        "strike price": {"allow_missing": true},
+        "url": {"allow_missing": false, "attribute": "href"}
+    },
+    "selectors": {
+        "title": "div[class=\"name\"] a[class=\"into-detail\"]",
+        "url": "div[class=\"name\"] a[class=\"into-detail\"]",
+        "price": "div[class=\"price-delivery\"] span[class=\"int-part\"]",
+        "strike price": "div[class=\"price-delivery\"] span[class=\"old\"]"
+    }
+}
+
+###
+POST http://127.0.0.1:8000/api/v1/crawler
+Content-Type: application/json
+
+{
+    "url": "https://www.komputronik.pl/category/1251/monitory.html",
+    "list_selector": "div[ng-if=\"!$ctrl.isFiltered && $ctrl.productsCount > 0\"] div[class=\"tests-product-entry\"]",
+    "config": {
+        "title": {"allow_missing": false},
+        "price": {"allow_missing": false},
+      "url": {"allow_missing": false, "attribute": "href"}
+    },
+    "selectors": {
+        "title": "h2[class=\"font-headline text-lg font-bold leading-6 line-clamp-3 md:text-xl md:leading-8\"] a",
+        "url": "h2[class=\"font-headline text-lg font-bold leading-6 line-clamp-3 md:text-xl md:leading-8\"] a",
+        "price": "div[class=\"text-3xl font-bold leading-8\"]"
+    }
+}
+
+
+###
+POST http://127.0.0.1:8000/api/v1/crawler
+Content-Type: application/json
+
+{
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0"
+    },
+    "url": "https://mediamarkt.pl/komputery-i-tablety/laptopy-laptopy-2-w-1/macbook",
+    "list_selector": "div[class='offers is-list'] div[class='offer']",
+      "config": {
+        "title": {"allow_missing": false},
+        "price": {"allow_missing": false},
+        "url": {"allow_missing": false, "attribute": "href"}
+    },
+    "selectors": {
+        "title": "h2[class='title']",
+        "price": "span[class='whole']",
+        "url": "a[class=\"is-hover-underline spark-link\"]"
+    }
+}
+
+###
+POST http://127.0.0.1:8000/api/v1/crawler
+Content-Type: application/json
+
+{
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0"
+    },
+    "url": "https://mediamarkt.pl/komputery-i-tablety/laptopy-laptopy-2-w-1/macbook",
+    "list_selector": "div[class='offers is-list'] div[class='offer']",
+      "config": {
+        "title": {"allow_missing": false},
+        "price": {"allow_missing": false},
+        "url": {"allow_missing": false, "attribute": "href"}
+    },
+    "selectors": {
+        "title": "h2[class='title']",
+        "price": "span[class='whole']",
+        "url": "a[class=\"is-hover-underline spark-link\"]"
+    }
+}
+
