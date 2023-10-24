@@ -59,26 +59,3 @@ Content-Type: application/json
         "url": "a[class=\"is-hover-underline spark-link\"]"
     }
 }
-
-###
-POST http://127.0.0.1:8000/api/v1/crawler
-Content-Type: application/json
-
-{
-    "headers": {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0"
-    },
-    "url": "https://mediamarkt.pl/komputery-i-tablety/laptopy-laptopy-2-w-1/macbook",
-    "list_selector": "div[class='offers is-list'] div[class='offer']",
-      "config": {
-        "title": {"allow_missing": false},
-        "price": {"allow_missing": false},
-        "url": {"allow_missing": false, "attribute": "href"}
-    },
-    "selectors": {
-        "title": "h2[class='title']",
-        "price": "span[class='whole']",
-        "url": "a[class=\"is-hover-underline spark-link\"]"
-    }
-}
-
