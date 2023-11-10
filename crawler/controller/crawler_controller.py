@@ -21,8 +21,8 @@ class CrawlerController(APIView):
     def post(self, request):
         headers = request.data.get("headers", {})
         self.__request_validator.validate(request.data)
-        request_data = RequestData(url=request.data["url"], list_selector=request.data["list_selector"],
-                                   selectors=request.data["selectors"], config=request.data["config"],
-                                   headers=headers)
+        request_data = RequestData(request.data["url"], request.data["list_selector"],
+                                   request.data["selectors"], request.data["config"],
+                                   headers)
         output = self.__crawler_service.crawl(request_data)
         return Response(output, status=status.HTTP_200_OK)
