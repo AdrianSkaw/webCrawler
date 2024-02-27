@@ -1,3 +1,4 @@
+import re
 from abc import ABC
 from typing import Union
 from bs4 import BeautifulSoup
@@ -5,6 +6,7 @@ import requests
 from rest_framework import serializers
 from crawler.service.crawler_interface import CrawlerInterface
 from crawler.service.dto.request_data import RequestData
+from crawler.repository import BrandRepository, BrandDetailsRepository
 
 
 class CrawlerService(CrawlerInterface, ABC):
@@ -66,29 +68,7 @@ class CrawlerService(CrawlerInterface, ABC):
             raise serializers.ValidationError(f"Text not found for xpath: {xpath} for text selector module")
         return text
 
-    def create_web_session(self, url: str, headers: dict = None) -> BeautifulSoup:
-        """
-        Create a web session and return it as a BeautifulSoup object.
 
-        hinit: This method sends an HTTP request to the specified URL, creates a web session, and returns it
-        as a BeautifulSoup object for further parsing.
-
-        Args:
-            url (str): The URL to fetch.
-            headers (dict): Optional headers for the HTTP request.
-
-        Returns:
-            BeautifulSoup: A BeautifulSoup object representing the web page content.
-        """
-        if not headers:
-            headers = {
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0"
-            }
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            return BeautifulSoup(response.text, 'html.parser')
-        else:
-            raise serializers.ValidationError(f"Failed to fetch the page: {url}. Status code: {response.status_code}")
 
     def __crawl_category(self, request_data: RequestData) -> list:
         """
@@ -110,7 +90,20 @@ class CrawlerService(CrawlerInterface, ABC):
         for element_html in elements:
             product = self.__process_element(element_html, request_data)
             output.append(product)
+            self.__save_to_db(product)
+
         return output
+
+    def __save_to_db(self, product):
+        product['price'] = float(self.__normalize_price(product['price']))
+        if BrandRepository.is_exist(product):
+            brand = BrandRepository.get_by_name(name=product.get("title"))
+        else:
+            brand = BrandRepository.create(product)
+        BrandDetailsRepository.create(brand, product)
+
+    def __normalize_price(self, price_str):
+        return re.sub("[^0-9.,-]", "", price_str).replace(",", ".")
 
     def __process_element(self, element_html: str, request_data: RequestData) -> dict[str, Union[str, None]]:
         element_html_str = str(element_html)
