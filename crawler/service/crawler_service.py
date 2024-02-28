@@ -27,13 +27,16 @@ class CrawlerService:
 
     @staticmethod
     def __save_to_db(product):
-        product['price'] = float(CrawlerService.__normalize_price(product['price']))
+        product['price'] = CrawlerService.__normalize_price_to_float_format(product['price'])
         if BrandRepository.is_exist(product):
             brand = BrandRepository.get_by_name(name=product.get("title"))
         else:
             brand = BrandRepository.create(product)
         BrandDetailsRepository.create(brand, product)
 
+    @staticmethod
+    def __normalize_price_to_float_format(price):
+        return float(CrawlerService.__normalize_price(price))
     @staticmethod
     def __normalize_price(price_str):
         return re.sub("[^0-9.,-]", "", price_str).replace(",", ".")
