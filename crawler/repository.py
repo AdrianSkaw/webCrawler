@@ -1,11 +1,10 @@
-from crawler.model.models import Brand, BrandDetails
+from crawler.models import Brand, BrandDetails
 from rest_framework.exceptions import NotFound
 
 
 class BrandRepository:
     @staticmethod
     def create(product):
-        price = product.get('price')
         brand = Brand.objects.create(
             title=product["title"],
             url=product["url"]

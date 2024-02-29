@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from crawler.model.models import Brand, BrandDetails
+from crawler.models import Brand, BrandDetails
 
 
 # @admin.register(Brand)
