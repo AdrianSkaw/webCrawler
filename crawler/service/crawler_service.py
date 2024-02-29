@@ -9,7 +9,7 @@ from crawler.service.web_session_manager import WebSessionManager
 
 class CrawlerService:
 
-    def __init__(self, parser: Type[HTMLParser], web_session_manager: Type[WebSessionManager]):
+    def __init__(self, parser: HTMLParser, web_session_manager: WebSessionManager):
         self.parser = parser
         self.web_session_manager = web_session_manager
 

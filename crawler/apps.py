@@ -8,7 +8,6 @@ class CrawlerConfig(AppConfig):
     def ready(self):
         from crawler.di.base_container import BaseContainer
 
-
         base_container = BaseContainer()
-        base_container.wire(modules=["crawler.controller.crawler_controller"
+        base_container.wire(modules=["crawler.views"
                                      ])
