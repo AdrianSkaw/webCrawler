@@ -5,7 +5,7 @@ from crawler.service.dto.request_data import RequestData
 from crawler.repository import BrandRepository, BrandDetailsRepository
 from crawler.service.html_parser import HTMLParser
 from crawler.service.web_session_manager import WebSessionManager
-
+from rest_framework import serializers
 
 class CrawlerService:
 
@@ -28,8 +28,7 @@ class CrawlerService:
             return output
         except Exception as e:
             # Handle the exception here, e.g., logging, returning an empty list, or raising the exception further
-            print(f"An error occurred while processing the request: {e}")
-            return []
+            raise serializers.ValidationError(f"An error occurred while processing the request: {e}")
 
     def __crawl_category(self, request_data: RequestData) -> list:
         """

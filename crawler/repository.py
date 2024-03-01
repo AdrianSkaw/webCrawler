@@ -2,32 +2,46 @@ from crawler.models import Brand, BrandDetails
 from rest_framework.exceptions import NotFound
 
 
-class BrandRepository:
+class BaseRepository:
+    @staticmethod
+    def create(model_cls, **kwargs):
+        return model_cls.objects.create(**kwargs)
+
+    @staticmethod
+    def filter(model_cls, **kwargs):
+        return model_cls.objects.filter(**kwargs)
+
+    @staticmethod
+    def get(model_cls, **kwargs):
+        try:
+            return model_cls.objects.get(**kwargs)
+        except model_cls.DoesNotExist:
+            raise NotFound(f"{model_cls.__name__} not exist")
+
+
+class BrandRepository(BaseRepository):
     @staticmethod
     def create(product):
-        brand = Brand.objects.create(
+        return BaseRepository.create(
+            Brand,
             title=product["title"],
             url=product["url"]
         )
-        return brand
 
     @staticmethod
     def is_exist(product):
-        return Brand.objects.filter(title=product.get("title"))
+        return BaseRepository.filter(Brand, title=product.get("title"))
 
     @staticmethod
     def get_by_name(name):
-        try:
-            brand = Brand.objects.get(title=name)
-        except Brand.DoesNotExist:
-            raise NotFound("Brand not exist")
-        return brand
+        return BaseRepository.get(Brand, title=name)
 
 
-class BrandDetailsRepository:
+class BrandDetailsRepository(BaseRepository):
     @staticmethod
     def create(brand: Brand, product):
-        brand_price = BrandDetails.objects.create(
+        return BaseRepository.create(
+            BrandDetails,
             title=brand,
             price=product.get("price", -1),
             strike_price=-1
