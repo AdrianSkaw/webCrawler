@@ -1,11 +1,10 @@
-from crawler.models import Brand, BrandDetails
+from crawler.models import Brand
 from rest_framework.exceptions import NotFound
+from rest_framework import serializers
+from crawler.serializer import BrandSerializer, BrandDetailsSerializer
 
 
 class BaseRepository:
-    @staticmethod
-    def create(model_cls, **kwargs):
-        return model_cls.objects.create(**kwargs)
 
     @staticmethod
     def filter(model_cls, **kwargs):
@@ -21,12 +20,12 @@ class BaseRepository:
 
 class BrandRepository(BaseRepository):
     @staticmethod
-    def create(product):
-        return BaseRepository.create(
-            Brand,
-            title=product["title"],
-            url=product["url"]
-        )
+    def create(product_data):
+        serializer = BrandSerializer(data=product_data)
+        if serializer.is_valid():
+            return serializer.save()
+        else:
+            raise serializers.ValidationError("Failed to create Brand object")
 
     @staticmethod
     def is_exist(product):
@@ -39,10 +38,10 @@ class BrandRepository(BaseRepository):
 
 class BrandDetailsRepository(BaseRepository):
     @staticmethod
-    def create(brand: Brand, product):
-        return BaseRepository.create(
-            BrandDetails,
-            title=brand,
-            price=product.get("price", -1),
-            strike_price=-1
-        )
+    def create(brand, product_data):
+        product_data['brand'] = brand.id
+        serializer = BrandDetailsSerializer(data=product_data)
+        if serializer.is_valid():
+            return serializer.save()
+        else:
+            raise serializers.ValidationError("Failed to create BrandDetails object")

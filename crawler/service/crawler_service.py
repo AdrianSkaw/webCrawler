@@ -57,10 +57,9 @@ class CrawlerService:
             product: Product data to save.
         """
         product['price'] = self.__normalize_price_to_float_format(product['price'])
-        if BrandRepository.is_exist(product):
-            brand = BrandRepository.get_by_name(name=product.get("title"))
-        else:
-            brand = BrandRepository.create(product)
+        if not BrandRepository.is_exist(product):
+            BrandRepository.create(product)
+        brand = BrandRepository.get_by_name(name=product.get("title"))
         BrandDetailsRepository.create(brand, product)
 
     def __normalize_price_to_float_format(self, price):
