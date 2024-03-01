@@ -1,16 +1,11 @@
 import unittest
 from bs4 import BeautifulSoup
 from requests.models import Response
-from unittest.mock import Mock, patch
-from crawler.service.crawler_service import CrawlerService
-from rest_framework.test import APIClient
-from django.urls import reverse
+from unittest.mock import Mock
 from unittest.mock import patch
-
 
 from django.test import TestCase
 
-from crawler.service.crawler_service import CrawlerService
 from crawler.service.html_parser import HTMLParser
 from crawler.service.web_session_manager import WebSessionManager
 
@@ -60,111 +55,6 @@ class TestCrawlerService(TestCase):
         mock_get.return_value = mock_response
         with self.assertRaises(Exception):
             WebSessionManager.create_web_session('http://example.com')
-
-    # def test_crawl(self):
-    #     payload = {
-    #         'url': 'http://example.com',
-    #         'list_selector': 'div.item',
-    #         'selectors': {
-    #             'title': 'div.title',
-    #             'price': 'div.price'
-    #         },
-    #         'config': {
-    #             'title': {'allow_missing': False},
-    #             'price': {'allow_missing': True}
-    #         }
-    #     }
-    #     with patch('requests.get') as mock_get:
-    #         mock_response = Mock(spec=Response)
-    #         mock_response.status_code = 200
-    #         mock_response.text = '<html><div class="item" href="http://domena.com"><div class="title">Product 1</div><div class="price">100</div></div><div class="item"><div class="title">Product 2</div></div></html>'
-    #         mock_get.return_value = mock_response
-    #         request_data = Mock(**payload)
-    #         web_session_manager = WebSessionManager()
-    #         parser = HTMLParser()
-    #         crawler_service = CrawlerService(parser, web_session_manager)
-    #         result = crawler_service.crawl(request_data)
-    #         expected_result = [
-    #             {'title': 'Product 1', 'price': '100'},
-    #             {'title': 'Product 2', 'price': None}
-    #         ]
-    #         self.assertEqual(result, expected_result)
-
-    # def test_crawl_controller_except_200(self):
-    #     payload = {
-    #         'url': 'http://example.com',
-    #         'list_selector': 'div.item',
-    #         'selectors': {
-    #             'title': 'div.title',
-    #             'price': 'div.price'
-    #         },
-    #         'config': {
-    #             'title': {'allow_missing': False},
-    #             'price': {'allow_missing': True}
-    #         }
-    #     }
-    #     with patch('requests.get') as mock_get:
-    #         mock_response = Mock(spec=Response)
-    #         mock_response.status_code = 200
-    #         mock_response.text = '<html><div class="item" href="http://domena.com"><div class="title">Product 1</div><div class="price">100</div></div><div class="item"><div class="title">Product 2</div></div></html>'
-    #         mock_get.return_value = mock_response
-    #         response = self.__client.post(self.__url, payload, format='json')
-    #         self.assertEqual(response.status_code, 200)
-    #
-    # def test_crawl_controller_missing_payload_fields(self):
-    #     payload = {
-    #         'list_selector': 'div.item',
-    #         'selectors': {
-    #             'title': 'div.title',
-    #             'price': 'div.price'
-    #         },
-    #         'config': {
-    #             'title': {'allow_missing': False},
-    #             'price': {'allow_missing': True}
-    #         }
-    #     }
-    #     response = self.__client.post(self.__url, payload, format='json')
-    #     response_expected = b'["Missing field key in request data"]'
-    #     self.assertContains(response, response_expected, status_code=400)
-    #
-    # def test_crawl_config_keys_not_equal_selectors_keys(self):
-    #     payload = {
-    #         'url': 'http://example.com',
-    #         'list_selector': 'div.item',
-    #         'selectors': {
-    #             'title': 'div.title',
-    #             'price': 'div.price'
-    #         },
-    #         'config': {
-    #             'title': {'allow_missing': False}
-    #         }
-    #     }
-    #     url = 'http://127.0.0.1:8000/api/v1/crawler'
-    #     response = self.__client.post(url, payload, format='json')
-    #     response_expected = b'["Invalid value - the \\"config\\" field is missing required fields"]'
-    #     self.assertContains(response, response_expected, status_code=400)
-    #
-    # def test_crawl_bad_list_selector(self):
-    #     payload = {
-    #         'url': 'http://example.com',
-    #         'list_selector': 'div.item1',
-    #         'selectors': {
-    #             'title': 'div.title',
-    #             'price': 'div.price'
-    #         },
-    #         'config': {
-    #             'title': {'allow_missing': False},
-    #             'price': {'allow_missing': True}
-    #         }
-    #     }
-    #     with patch('requests.get') as mock_get:
-    #         mock_response = Mock(spec=Response)
-    #         mock_response.status_code = 200
-    #         mock_response.text = '<html><div class="item" href="http://domena.com"><div class="title">Product 1</div><div class="price">100</div></div><div class="item"><div class="title">Product 2</div></div></html>'
-    #         mock_get.return_value = mock_response
-    #         response = self.__client.post(self.__url, payload, format='json')
-    #         response_expected = b'["Elements not found for xpath: div.item1 for list selector module"]'
-    #         self.assertContains(response, response_expected, status_code=400)
 
 
 if __name__ == '__main__':
