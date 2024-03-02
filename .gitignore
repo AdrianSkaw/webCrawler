@@ -9,3 +9,4 @@ controller/__pycache__/crawler_controller.cpython-310.pyc
 service/dto/__pycache__/request_data.cpython-310.pyc
 validator/__pycache__/request_validator.cpython-310.pyc
 __pycache__/
+/db.sqlite3

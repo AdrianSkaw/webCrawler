@@ -63,4 +63,4 @@ class HTMLParser:
             if allow_missing:
                 return None
             raise serializers.ValidationError(f"Text not found for xpath: {xpath} for text selector module")
-        return text
+        return text.strip()
