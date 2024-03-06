@@ -3,7 +3,7 @@ import os
 from .settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 from celery import Celery
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'brandCrawler.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 app = Celery('celery_app',
              broker=CELERY_BROKER_URL,
