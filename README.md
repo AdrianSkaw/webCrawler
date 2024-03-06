@@ -9,8 +9,11 @@ Stack:
 - Python3
 - Docker-Compose
 - Django
+- Django Rest Framework
+- Pydantic
 - Celery
 - Redis
+- Dependency injection
 - SQLite3
 
 ## Setup Instructions
