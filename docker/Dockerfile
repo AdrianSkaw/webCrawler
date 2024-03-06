@@ -7,5 +7,5 @@ WORKDIR /app
 COPY requirements.txt /app
 COPY run.sh /run.sh
 RUN pip3 install -r requirements.txt --no-cache-dir
-CMD ["redis-server"]
-CMD ["/bin/bash", "/run.sh"]
+
+CMD ["sh", "-c", "redis-server & /bin/bash /run.sh"]

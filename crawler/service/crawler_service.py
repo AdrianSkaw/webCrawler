@@ -1,5 +1,5 @@
 import re
-from typing import Union, Type
+from typing import Union
 
 from crawler.service.dto.request_data import RequestData
 from crawler.service.html_parser import HTMLParser
@@ -58,7 +58,7 @@ class CrawlerService:
         if response.status_code == 200:
             print("Data saved successfully.")
         else:
-            print("An error occurred while saving data.")
+            raise Exception("An error occurred while saving data.")
 
     def __normalize_price_to_float_format(self, price):
         """
