@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  web_crawler:
+    build: docker
+    tty: true
+    ports:
+      - '7900:8000'
+    volumes:
+      - './:/app/'
+    working_dir: '/app'
+    privileged: true
+    environment:
+      - DJANGO_SETTINGS_MODULE=brandCrawler.settings
+
+

@@ -18,24 +18,8 @@ Content-Type: application/json
     }
 }
 
-###
-POST http://127.0.0.1:8000/api/v1/crawler
-Content-Type: application/json
 
-{
-    "url": "https://www.komputronik.pl/category/1251/monitory.html",
-    "list_selector": "div[ng-if=\"!$ctrl.isFiltered && $ctrl.productsCount > 0\"] div[class=\"tests-product-entry\"]",
-    "config": {
-        "title": {"allow_missing": false},
-        "price": {"allow_missing": false},
-      "url": {"allow_missing": false, "attribute": "href"}
-    },
-    "selectors": {
-        "title": "h2[class=\"font-headline text-lg font-bold leading-6 line-clamp-3 md:text-xl md:leading-8\"] a",
-        "url": "h2[class=\"font-headline text-lg font-bold leading-6 line-clamp-3 md:text-xl md:leading-8\"] a",
-        "price": "div[class=\"text-3xl font-bold leading-8\"]"
-    }
-}
+
 
 
 ###
