@@ -2,10 +2,11 @@ import re
 from typing import Union, Type
 
 from crawler.service.dto.request_data import RequestData
-from crawler.repository import BrandRepository, BrandDetailsRepository
 from crawler.service.html_parser import HTMLParser
 from crawler.service.web_session_manager import WebSessionManager
 from rest_framework import serializers
+import requests
+import json
 
 class CrawlerService:
 
@@ -46,21 +47,18 @@ class CrawlerService:
         for element_html in elements:
             product = self.__process_element(element_html, request_data)
             output.append(product)
-            self.__save_to_db(product)
+        self.__save_to_db(output)
         return output
 
-    def __save_to_db(self, product):
-        """
-        Save product data to the database.
-
-        Args:
-            product: Product data to save.
-        """
-        product['price'] = self.__normalize_price_to_float_format(product['price'])
-        if not BrandRepository.is_exist(product):
-            BrandRepository.create(product)
-        brand = BrandRepository.get_by_name(name=product.get("title"))
-        BrandDetailsRepository.create(brand, product)
+    @staticmethod
+    def __save_to_db(list_of_products):
+        url = 'http://127.0.0.1:8000/api/v1/data/save/'
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(url, data=json.dumps(list_of_products), headers=headers)
+        if response.status_code == 200:
+            print("Dane zapisano pomyślnie.")
+        else:
+            print("Wystąpił problem podczas zapisu danych.")
 
     def __normalize_price_to_float_format(self, price):
         """
@@ -109,6 +107,7 @@ class CrawlerService:
                 attribute_data = self.__extract_attribute(element_html_str, xpath, selector_type)
                 if selector_type == 'href':
                     self.__process_href(attribute_data, product, request_data)
+        product['price'] = self.__normalize_price_to_float_format(product['price'])
         return product
 
     def __extract_text(self, element_html_str: str, xpath: str, allow_missing: bool) -> Union[str, None]:
