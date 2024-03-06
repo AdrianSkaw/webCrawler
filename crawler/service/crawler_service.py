@@ -7,7 +7,7 @@ from crawler.service.web_session_manager import WebSessionManager
 from rest_framework import serializers
 import requests
 import json
-
+from brandCrawler.settings import HOST
 class CrawlerService:
 
     def __init__(self, parser: HTMLParser, web_session_manager: WebSessionManager):
@@ -52,13 +52,13 @@ class CrawlerService:
 
     @staticmethod
     def __save_to_db(list_of_products):
-        url = 'http://127.0.0.1:8000/api/v1/data/save/'
+        url = f'{HOST}/api/v1/data/save/'
         headers = {'Content-Type': 'application/json'}
         response = requests.post(url, data=json.dumps(list_of_products), headers=headers)
         if response.status_code == 200:
-            print("Dane zapisano pomyślnie.")
+            print("Data saved successfully.")
         else:
-            print("Wystąpił problem podczas zapisu danych.")
+            print("An error occurred while saving data.")
 
     def __normalize_price_to_float_format(self, price):
         """

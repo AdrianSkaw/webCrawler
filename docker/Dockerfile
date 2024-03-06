@@ -2,7 +2,7 @@
 
 FROM python:3.10
 RUN apt-get update && apt-get install -y redis-server
-EXPOSE 8000
+EXPOSE 7900
 WORKDIR /app
 COPY requirements.txt /app
 COPY run.sh /run.sh
