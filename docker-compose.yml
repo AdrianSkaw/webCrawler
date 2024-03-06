@@ -11,6 +11,6 @@ services:
     working_dir: '/app'
     privileged: true
     environment:
-      - DJANGO_SETTINGS_MODULE=brandCrawler.settings
+      - DJANGO_SETTINGS_MODULE=core.settings
 
 

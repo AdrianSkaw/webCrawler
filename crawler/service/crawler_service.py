@@ -7,7 +7,7 @@ from crawler.service.web_session_manager import WebSessionManager
 from rest_framework import serializers
 import requests
 import json
-from brandCrawler.settings import HOST
+from core.settings import HOST
 class CrawlerService:
 
     def __init__(self, parser: HTMLParser, web_session_manager: WebSessionManager):
